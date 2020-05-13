@@ -1,3 +1,14 @@
 {
-    "token": "NzA5Nzk4ODY2MzgzNTM2MTc4.XrrJuw.TyU4Fpo-OkdgPPOYrTCHrx4iEM8"
+    "token": "XXX",
+    "version": "1.0",
+    "categories": {
+        "enabled": true,
+        "ids": {
+            "awaiting": "618081991606403077",
+            "responded": "618082006303113238"
+        }
+    },
+    "roles": {
+        "support": "Support"
+    }
 }

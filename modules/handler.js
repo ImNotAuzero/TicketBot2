@@ -1,3 +1,5 @@
+/* jshint esversion: 8 */
+
 const index = require("../index");
 
 module.exports.commands = {
@@ -31,4 +33,4 @@ module.exports.commands = {
         };
         readAllCommands().then(console.log("System: commands.loadAll -> All commands loaded"));
     }
-}
+};

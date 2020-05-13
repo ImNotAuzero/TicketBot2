@@ -5,31 +5,21 @@ const config = require("./config.json");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const handler = require("./modules/handler");
+const onMessage = require("./events/message");
+const onReady = require("./events/ready");
 
 // Sets
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
+client.config = config;
 
 // Startup
-handler.commands.loadAll(client)
+handler.commands.loadAll(client);
 
-client.on("ready", async () => {
-    console.log("TicketBot ready to go.");
-});
-
-client.on("message", async message => {
-    let prefix = "-";
-    if (message.content.indexOf(prefix) !== 0) return;
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
-    let commandfile = client.commands.get(command) || client.commands.get(client.aliases.get(command));
-    let Command = `${prefix}${command}`;
-    if (!commandfile) {
-        return message.channel.send("error! cmd not found");
-      }
-    if (commandfile) commandfile.run(client, message, args);
-  });
+client.on("ready", onReady);
 
 // Message Events
+client.on("message", onMessage.commands.finder);
+client.on("message", onMessage.categories); // Sorts tickets in to categories.
 
 client.login(config.token);
