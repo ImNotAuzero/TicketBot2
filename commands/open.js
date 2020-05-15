@@ -15,7 +15,8 @@ module.exports.run = async(client, message, args) => {
     }
     
     if(functions.channels.cache_findbyName(message, `ticket-${id}`)) {
-        return message.channel.send("You already have a ticket open!\n\nClose the open ticket first.");
+        let ticket = functions.channels.cache_findbyName(message, `ticket-${id}`);
+        return functions.messages(message, "ticketAlreadyOpen", message.author.id, ticket.id);
     }
 
     functions.generate.ticket(message, id, supportRole.id , message.author.id, everyone);

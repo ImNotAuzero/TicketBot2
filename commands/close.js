@@ -4,21 +4,28 @@ const index = require("../index");
 const functions = require("../modules/functions");
 
 module.exports.run = async(client, message, args) => {
-    let supportRole = functions.roles.cache_findByName(message, client.config.roles.support);
 
     if(!message.channel.name.includes(`ticket-`)) {
-        return message.channel.send("This is not a ticket channel");
+        return functions.messages(message, "notTicketChannel");
     }
 
     if(!message.member.roles.cache.some(r => r.name === client.config.roles.support)) {
-        return message.channel.send("You do not have permission to close tickets!");
+        return functions.messages(message, "noPermission");
     }
 
     // generate transcript
-    functions.generate.transcript();
+    let transcript = await functions.generate.transcript(message);
 
-    message.channel.delete();
 
+    if(client.config.logging.onTicketClose === true) {
+        let logChannel = functions.channels.cache_findByID(message, client.config.logging.channel);
+
+        logChannel.send(await functions.messages(message, "logTicketClose", message.channel, message.author, transcript));
+    }
+
+    setTimeout(function(){
+        message.channel.delete();
+    }, 5000);
 
 };
 

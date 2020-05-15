@@ -19,7 +19,11 @@ handler.commands.loadAll(client);
 client.on("ready", onReady);
 
 // Message Events
-client.on("message", onMessage.commands.finder);
-client.on("message", onMessage.categories); // Sorts tickets in to categories.
+client.on("message", async (message) => {
+    onMessage.commands.finder(client, message);
+});
+client.on("message", async (message) => {
+    onMessage.categories(client, message);
+}); // Sorts tickets in to categories.
 
 client.login(config.token);
